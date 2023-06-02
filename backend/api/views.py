@@ -5,10 +5,11 @@ from .serializers import (
     TagSerializer,
     RecipeSerializer,
     SubscribeSerializer,
+    IngredienteSerializer,
 )
 from .paginators import Pagination
 from djoser.views import UserViewSet as DjoserUVS
-from recipe.models import Tag, Recipe, Favorite
+from recipe.models import Tag, Recipe, Favorite, Ingredient
 from .permissions import ObjAuthorOrReadOnly
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -109,3 +110,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 return Response(status=status.HTTP_204_NO_CONTENT)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+class IngredientViewSet(viewsets.ModelViewSet):
+    queryset = Ingredient.objects.all()
+    serializer_class = IngredienteSerializer
+    http_method_names = ('get',)

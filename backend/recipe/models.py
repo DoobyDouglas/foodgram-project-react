@@ -28,7 +28,7 @@ class Tag(models.Model):
         verbose_name_plural = 'Тэги'
 
 
-class ingredient(models.Model):
+class Ingredient(models.Model):
     name = models.CharField(
         max_length=50,
         verbose_name='Название',
@@ -68,7 +68,7 @@ class Recipe(models.Model):
         max_length=254,
     )
     ingredients = models.ManyToManyField(
-        ingredient,
+        Ingredient,
         through='Amount',
         related_name='recipes',
         verbose_name='Ингредиенты блюда',
@@ -105,7 +105,7 @@ class Amount(models.Model):
         related_name='amount',
     )
     ingredients = models.ForeignKey(
-        ingredient,
+        Ingredient,
         on_delete=models.CASCADE,
         related_name='amount',
         verbose_name='Ингредиенты блюда',
