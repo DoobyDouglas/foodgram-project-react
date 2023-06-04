@@ -33,7 +33,7 @@ class Ingredient(models.Model):
         max_length=50,
         verbose_name='Название',
     )
-    units = models.CharField(
+    measurement_unit = models.CharField(
         verbose_name='Единицы измерения',
         max_length=25,
     )
@@ -61,7 +61,7 @@ class Recipe(models.Model):
     )
     image = models.ImageField(
         verbose_name='Изображение',
-        upload_to='imgs/',
+        upload_to='recipes/images/',
     )
     text = models.TextField(
         verbose_name='Описание',
@@ -116,7 +116,10 @@ class Amount(models.Model):
     )
 
     def __str__(self):
-        return f'{self.ingredients}: {self.amount} {self.ingredients.units}'
+        return (
+            f'{self.ingredients}: {self.amount} '
+            f'{self.ingredients.measurement_unit}'
+        )
 
     class Meta:
         ordering = ('recipe', )
@@ -138,9 +141,31 @@ class Favorite(models.Model):
         verbose_name='Пользователь',
     )
 
+    def __str__(self):
+        return f'{self.user} любит {self.recipe}'
+
     class Meta:
         verbose_name = 'Избранный рецепт'
         verbose_name_plural = 'Избранные рецепты'
 
-    def __str__(self):
-        return f'{self.user} любит {self.recipe}'
+
+class ShoppingСart(models.Model):
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='in_shopping_carts',
+        verbose_name='Рецепт в списке покупок',
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='shopping_cart',
+        verbose_name='Владелец списка покупок',
+    )
+
+    def __str__(self) -> str:
+        return f'{self.recipe} для {self.user}'
+
+    class Meta:
+        verbose_name = 'Рецепт в списке покупок'
+        verbose_name_plural = 'Рецепты в списке покупок'
