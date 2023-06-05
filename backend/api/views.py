@@ -118,19 +118,20 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         queryset = self.queryset
-        is_favorited = self.request.query_params.get('is_favorited')
-        if is_favorited == '1':
-            queryset = queryset.filter(favorites__user=user)
-        elif is_favorited == '0':
-            queryset = queryset.exclude(favorites__user=user)
-        in_cart = self.request.query_params.get('is_in_shopping_cart')
-        if in_cart == '1':
-            queryset = queryset.filter(in_shopping_carts__user=user)
-        elif in_cart == '0':
-            queryset = queryset.exclude(in_shopping_carts__user=user)
-        author = self.request.query_params.get('author')
-        if author:
-            queryset = queryset.filter(author=author)
+        if not user.is_anonymous:
+            is_favorited = self.request.query_params.get('is_favorited')
+            if is_favorited == '1':
+                queryset = queryset.filter(favorites__user=user)
+            elif is_favorited == '0':
+                queryset = queryset.exclude(favorites__user=user)
+            in_cart = self.request.query_params.get('is_in_shopping_cart')
+            if in_cart == '1':
+                queryset = queryset.filter(in_shopping_carts__user=user)
+            elif in_cart == '0':
+                queryset = queryset.exclude(in_shopping_carts__user=user)
+            author = self.request.query_params.get('author')
+            if author:
+                queryset = queryset.filter(author=author)
         tags = self.request.query_params.getlist('tags')
         if tags:
             queryset = queryset.filter(tags__slug__in=tags)

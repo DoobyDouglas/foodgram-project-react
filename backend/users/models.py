@@ -4,13 +4,6 @@ from django.db import models
 
 class User(AbstractUser):
 
-    ADMIN = 'admin'
-    USER = 'user'
-    ROLES = [
-        (ADMIN, 'admin'),
-        (USER, 'user'),
-    ]
-
     email = models.EmailField(
         max_length=254,
         unique=True,
@@ -35,16 +28,10 @@ class User(AbstractUser):
         max_length=150,
         verbose_name='Пароль',
     )
-    role = models.CharField(
-        max_length=5,
-        choices=ROLES,
-        default='user',
-        verbose_name='Роль',
+    is_superuser = models.BooleanField(
+        default=False,
+        help_text=('Администратор'),
     )
-
-    @property
-    def is_admin(self):
-        return self.role == self.ADMIN
 
     def __str__(self):
         return self.username
