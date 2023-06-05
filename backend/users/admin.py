@@ -3,9 +3,18 @@ from .models import User
 
 
 class UserAdmin(admin.ModelAdmin):
-    search_fields = ('username',)
+
     list_display = (
         'username',
+        'email',
+    )
+    list_filter = (
+        'username',
+        'email',
+    )
+    search_fields = (
+        'username',
+        'email',
     )
 
 
