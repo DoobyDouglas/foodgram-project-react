@@ -179,7 +179,6 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
                         continue
                     ingredients_dict[name] = [amount, unit]
             for key, value in ingredients_dict.items():
-                print(value)
                 file.append(f'{key} {value[0]} {value[1]}\n')
             response = HttpResponse(
                 file,

@@ -1,1 +1,3 @@
-# praktikum_new_diplom
+# команда для загрузки ингридиентов
+
+python manage.py data_load
