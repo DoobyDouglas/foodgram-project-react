@@ -19,9 +19,11 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from django.http import HttpResponse
+from .utils import AddAndDelMixin
 
 
-class UserViewSet(DjoserUVS, viewsets.ModelViewSet):
+class UserViewSet(DjoserUVS, viewsets.ModelViewSet, AddAndDelMixin):
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = Pagination
@@ -55,32 +57,23 @@ class UserViewSet(DjoserUVS, viewsets.ModelViewSet):
 
     @action(**subscribe_args)
     def subscribe(self, request, id):
-        user = request.user
         author = get_object_or_404(User, pk=id)
         subscription = Subscription.objects.filter(
             author=author,
-            user=user
+            user=request.user
         )
-        if request.method == 'POST':
-            if subscription.exists():
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-            Subscription.objects.create(author=author, user=user)
-            return Response(status=status.HTTP_201_CREATED)
-        if request.method == 'DELETE':
-            if subscription.exists():
-                subscription.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return self.common_action(author, subscription, Subscription)
 
 
 class TagViewSet(viewsets.ModelViewSet):
+
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     http_method_names = ('get',)
 
 
-class RecipeViewSet(viewsets.ModelViewSet):
+class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
+
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     pagination_class = Pagination
@@ -145,20 +138,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @action(**favorite_args)
     def favorite(self, request, pk):
-        user = request.user
         recipe = get_object_or_404(Recipe, pk=pk)
-        favorite = Favorite.objects.filter(recipe=recipe, user=user)
-        if request.method == 'POST':
-            if favorite.exists():
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-            Favorite.objects.create(recipe=recipe, user=user)
-            return Response(status=status.HTTP_201_CREATED)
-        if request.method == 'DELETE':
-            if favorite.exists():
-                favorite.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        favorite = Favorite.objects.filter(recipe=recipe, user=request.user)
+        return self.common_action(recipe, favorite, Favorite)
 
     shopping_cart_args = {
         'methods': ('post', 'delete',),
@@ -168,20 +150,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @action(**shopping_cart_args)
     def shopping_cart(self, request, pk):
-        user = request.user
         recipe = get_object_or_404(Recipe, pk=pk)
-        in_cart = ShoppingСart.objects.filter(recipe=recipe, user=user)
-        if request.method == 'POST':
-            if in_cart.exists():
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-            ShoppingСart.objects.create(recipe=recipe, user=user)
-            return Response(status=status.HTTP_201_CREATED)
-        if request.method == 'DELETE':
-            if in_cart.exists():
-                in_cart.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        in_cart = ShoppingСart.objects.filter(recipe=recipe, user=request.user)
+        return self.common_action(recipe, in_cart, ShoppingСart)
 
     download_args = {
         'methods': ('get',),
@@ -222,6 +193,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
 
 class IngredientViewSet(viewsets.ModelViewSet):
+
     queryset = Ingredient.objects.all()
     serializer_class = IngredienteSerializer
     http_method_names = ('get',)

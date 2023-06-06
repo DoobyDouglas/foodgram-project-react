@@ -22,6 +22,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return user
 
     class Meta:
+
         model = User
         fields = (
             'email',
@@ -35,6 +36,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+
     is_subscribed = serializers.SerializerMethodField()
 
     def get_is_subscribed(self, author):
@@ -44,6 +46,7 @@ class UserSerializer(serializers.ModelSerializer):
         return user.following.filter(user=author).exists()
 
     class Meta:
+
         model = User
         fields = (
             'email',
@@ -57,12 +60,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserRecipeSerializer(serializers.ModelSerializer):
+
     is_subscribed = serializers.SerializerMethodField()
 
     def get_is_subscribed(self, author):
         return False
 
     class Meta:
+
         model = User
         fields = (
             'email',
@@ -88,6 +93,7 @@ class SubscribeRecipeSerializer(serializers.ModelSerializer):
 
 
 class SubscribeSerializer(serializers.ModelSerializer):
+
     recipes = serializers.SerializerMethodField()
     recipes_count = serializers.SerializerMethodField()
 
@@ -104,9 +110,10 @@ class SubscribeSerializer(serializers.ModelSerializer):
         return serializer.data
 
     def get_recipes_count(self, user):
-        return Recipe.objects.filter(author=user).count()
+        return user.recipes.count()
 
     class Meta:
+
         model = User
         fields = (
             'email',
@@ -121,12 +128,14 @@ class SubscribeSerializer(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Tag
         fields = '__all__'
 
 
 class IngredientRecipeSerializer(serializers.ModelSerializer):
+
     amount = serializers.SerializerMethodField()
 
     def get_amount(self, ingredient):
@@ -134,6 +143,7 @@ class IngredientRecipeSerializer(serializers.ModelSerializer):
         return amount[0]['amount']
 
     class Meta:
+
         model = Ingredient
         fields = (
             'id',
@@ -144,6 +154,7 @@ class IngredientRecipeSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
+
     tags = TagSerializer(many=True, read_only=True)
     author = UserSerializer(read_only=True)
     ingredients = IngredientRecipeSerializer(many=True, read_only=True)
@@ -163,6 +174,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         return user.shopping_cart.filter(recipe=recipe).exists()
 
     class Meta:
+
         model = Recipe
         fields = (
             'id',
@@ -179,9 +191,11 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class IngredientAmountSerializer(serializers.ModelSerializer):
+
     id = serializers.IntegerField()
 
     class Meta:
+
         model = Amount
         fields = (
             'id',
@@ -190,6 +204,7 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
 
 
 class CreateRecipeSerializer(serializers.ModelSerializer):
+
     ingredients = IngredientAmountSerializer(many=True)
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(),
@@ -213,6 +228,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         return recipe
 
     class Meta:
+
         model = Recipe
         fields = (
             'ingredients',
@@ -227,11 +243,13 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
 class IngredienteSerializer(serializers.ModelSerializer):
 
     class Meta:
+
         model = Ingredient
         fields = '__all__'
 
 
 class RecipeDetailSerializer(serializers.ModelSerializer):
+
     tags = TagSerializer(many=True, read_only=True)
     author = UserRecipeSerializer(read_only=True)
     ingredients = IngredientRecipeSerializer(many=True)
@@ -253,6 +271,7 @@ class RecipeDetailSerializer(serializers.ModelSerializer):
         return False
 
     class Meta:
+
         model = Recipe
         fields = (
             'id',
