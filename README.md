@@ -1,8 +1,3 @@
-# команда для загрузки ингридиентов
+![workflow](https://github.com/DoobyDouglas/foodgram-project-react/actions/workflows/yamdb_workflow.yml/badge.svg)
 
-python manage.py data_load
-
-# команды для создания миграций после деплоя
-
-docker-compose exec backend python manage.py migrate
-docker-compose exec backend python python manage.py data_load
+сайт можно найти по адресу http://84.201.136.223
