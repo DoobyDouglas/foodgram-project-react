@@ -98,7 +98,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
 
     def update(self, request, pk, partial):
         instance = self.get_object()
-        serializer = RecipeSerializer(
+        serializer = CreateRecipeSerializer(
             instance,
             data=request.data,
             partial=partial,
@@ -106,6 +106,11 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
         )
         if serializer.is_valid(raise_exception=True):
             self.perform_update(serializer)
+            recipe = serializer.instance
+            serializer = RecipeSerializer(
+                recipe,
+                context={'request': request},
+            )
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

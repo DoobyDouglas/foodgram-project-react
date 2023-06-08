@@ -230,6 +230,26 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         recipe.save()
         return recipe
 
+    def update(self, validated_data, instance):
+        tags = validated_data.pop('tags')
+        recipe_ingredients = validated_data.pop('ingredients')
+        recipe = instance
+        recipe.tags.clear()
+        recipe.tags.add(*tags)
+        Amount.objects.filter(recipe=recipe).delete()
+        for key, value in validated_data.items():
+            setattr(recipe, key, value)
+        for ingredient in recipe_ingredients:
+            amount = ingredient['amount']
+            ingredient = get_object_or_404(Ingredient, pk=ingredient['id'])
+            Amount.objects.create(
+                recipe=recipe,
+                ingredients=ingredient,
+                amount=amount,
+            )
+        recipe.save()
+        return recipe
+
     class Meta:
 
         model = Recipe
