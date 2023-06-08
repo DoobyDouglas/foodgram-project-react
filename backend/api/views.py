@@ -129,7 +129,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
         tags = self.request.query_params.getlist('tags')
         if tags:
             queryset = queryset.filter(tags__slug__in=tags)
-        return queryset
+        return queryset.distinct()
 
     favorite_args = {
         'methods': ('post', 'delete',),
