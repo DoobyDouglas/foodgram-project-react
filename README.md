@@ -1,4 +1,4 @@
-![workflow](https://github.com/DoobyDouglas/foodgram-project-react/actions/workflows/yamdb_workflow.yml/badge.svg)
+![workflow](https://github.com/DoobyDouglas/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 
 Учебный проект Уварова Антона Александровича.
 Написан с помощью Django, Django Rest Framework и Djoser и Pillow.
