@@ -170,7 +170,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
     def download_shopping_cart(self, request):
         user = request.user
         if user.shopping_cart.exists():
-            filename = 'shopping_list.txt'
+            #filename = 'shopping_list.txt'
             ingredients_dict = {}
             file = []
             head = 'Ваш список покупок:\n'
@@ -191,7 +191,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
                 content_type='text/plain'
             )
             response['Content-Disposition'] = (
-                f'attachment; filename={filename}'
+                'attachment; filename=shoppinglist.txt'
             )
             return response
         return Response(status=status.HTTP_400_BAD_REQUEST)
