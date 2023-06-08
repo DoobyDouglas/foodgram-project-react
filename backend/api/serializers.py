@@ -230,7 +230,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         recipe.save()
         return recipe
 
-    def update(self, validated_data, instance):
+    def update(self, instance, validated_data):
         tags = validated_data.pop('tags')
         recipe_ingredients = validated_data.pop('ingredients')
         recipe = instance
