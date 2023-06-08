@@ -188,7 +188,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
                 file.append(f'{key} {value[0]} {value[1]}\n')
             response = HttpResponse(
                 file,
-                content_type='multipart/form-data'
+                content_type='text/plain'
             )
             response['Content-Disposition'] = (
                 f'attachment; name="shopping_list"; filename="{filename}"'
