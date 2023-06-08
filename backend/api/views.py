@@ -89,8 +89,6 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
         if serializer.is_valid(raise_exception=True):
             self.perform_create(serializer)
             recipe = serializer.instance
-            # recipe.author = request.user
-            # recipe.save()
             serializer = RecipeDetailSerializer(
                 recipe,
                 context={'request': request},
@@ -170,7 +168,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             filename = 'shopping_list.txt'
             ingredients_dict = {}
             file = []
-            head = 'В а ш с п и с о к п о к у п о к \n'
+            head = 'Ваш список покупок:\n'
             file.append(head)
             for cart in user.shopping_cart.all():
                 for i in cart.recipe.amount.all():

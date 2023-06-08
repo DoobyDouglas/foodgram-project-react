@@ -34,6 +34,7 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
+            sudo docker-compose stop
             sudo docker ps -a -q
             sudo docker rm dooby_backend_1
             sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/fg_back:v1
