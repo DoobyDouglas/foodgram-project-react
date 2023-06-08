@@ -82,12 +82,15 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
     http_method_names = ('get', 'post', 'patch', 'delete',)
 
     def create(self, request, *args, **kwargs):
-        serializer = CreateRecipeSerializer(data=request.data)
+        serializer = CreateRecipeSerializer(
+            data=request.data,
+            context={'request': request},
+            )
         if serializer.is_valid(raise_exception=True):
             self.perform_create(serializer)
             recipe = serializer.instance
-            recipe.author = request.user
-            recipe.save()
+            # recipe.author = request.user
+            # recipe.save()
             serializer = RecipeDetailSerializer(
                 recipe,
                 context={'request': request},

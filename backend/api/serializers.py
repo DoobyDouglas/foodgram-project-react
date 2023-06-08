@@ -213,9 +213,11 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
 
     def create(self, validated_data):
+        request = self.context.get('request')
         tags = validated_data.pop('tags')
         recipe_ingredients = validated_data.pop('ingredients')
         recipe = Recipe.objects.create(**validated_data)
+        recipe.author = request.user
         recipe.tags.set(tags)
         for ingredient in recipe_ingredients:
             amount = ingredient['amount']
@@ -225,6 +227,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
                 ingredients=ingredient,
                 amount=amount,
             )
+        recipe.save()
         return recipe
 
     class Meta:
