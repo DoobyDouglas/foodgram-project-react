@@ -188,10 +188,10 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
                 file.append(f'{key} {value[0]} {value[1]}\n')
             response = HttpResponse(
                 file,
-                content_type='text.txt; charset=utf-8'
+                content_type='text/plain'
             )
             response['Content-Disposition'] = (
-                f'attachment; filename="{filename}"'
+                f'attachment; filename={filename}'
             )
             return response
         return Response(status=status.HTTP_400_BAD_REQUEST)
