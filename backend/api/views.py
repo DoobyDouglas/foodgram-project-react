@@ -87,7 +87,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             context={'request': request},
             )
         if serializer.is_valid(raise_exception=True):
-            # self.perform_create(serializer)
+            self.perform_create(serializer)
             recipe = serializer.instance
             # recipe.author = request.user
             # recipe.save()
