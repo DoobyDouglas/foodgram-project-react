@@ -170,7 +170,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             filename = 'shopping_list.txt'
             ingredients_dict = {}
             file = []
-            head = 'Ваш список покупок:\n'
+            head = 'В а ш с п и с о к п о к у п о к \n'
             file.append(head)
             for cart in user.shopping_cart.all():
                 for i in cart.recipe.amount.all():
