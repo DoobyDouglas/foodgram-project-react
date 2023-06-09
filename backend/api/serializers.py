@@ -80,7 +80,7 @@ class UserRecipeSerializer(serializers.ModelSerializer):
             'last_name',
             'is_subscribed',
         )
-        read_only_fields = ('is_subscribed',)
+        # read_only_fields = ('is_subscribed',)
 
 
 class SubscribeRecipeSerializer(serializers.ModelSerializer):
