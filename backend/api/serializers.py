@@ -80,7 +80,7 @@ class UserRecipeSerializer(serializers.ModelSerializer):
             'last_name',
             'is_subscribed',
         )
-        # read_only_fields = ('is_subscribed',)
+        read_only_fields = ('is_subscribed',)
 
 
 class SubscribeRecipeSerializer(serializers.ModelSerializer):
@@ -291,10 +291,16 @@ class RecipeDetailSerializer(serializers.ModelSerializer):
         return None
 
     def get_is_favorited(self, recipe):
-        return False
+        user = self.context.get('request')
+        if user.is_anonymous:
+            return False
+        return user.user_favorites.filter(recipe=recipe).exists()
 
     def get_is_in_shopping_cart(self, recipe):
-        return False
+        user = self.context.get('request')
+        if user.is_anonymous:
+            return False
+        return user.shopping_cart.filter(recipe=recipe).exists()
 
     class Meta:
 
