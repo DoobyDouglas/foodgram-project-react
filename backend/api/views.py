@@ -72,7 +72,7 @@ class TagViewSet(viewsets.ModelViewSet):
     http_method_names = ('get',)
 
 
-class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
+#class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
 
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
