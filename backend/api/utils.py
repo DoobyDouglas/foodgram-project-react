@@ -12,8 +12,7 @@ class AddAndDelMixin:
                     field_names[1]: obj,
                     field_names[2]: self.request.user,
                 }
-                model.objects.create(**action_dict)
-                model.save()
+                model(**action_dict).save()
                 return Response(status=status.HTTP_201_CREATED)
             elif self.request.method == 'DELETE' and relation.exists():
                 relation.delete()
