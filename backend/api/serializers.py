@@ -64,7 +64,10 @@ class UserRecipeSerializer(serializers.ModelSerializer):
     is_subscribed = serializers.SerializerMethodField()
 
     def get_is_subscribed(self, author):
-        return False
+        user = self.context['request'].user
+        if user.is_anonymous or user == author:
+            return False
+        return user.follower.filter(author=author).exists()
 
     class Meta:
 
