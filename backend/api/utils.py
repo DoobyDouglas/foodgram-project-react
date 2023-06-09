@@ -7,8 +7,6 @@ class AddAndDelMixin:
     def common_action(self, obj, relation, model):
         if not self.request.user.is_anonymous:
             if self.request.method == 'POST' and not relation.exists():
-            # if relation.exists():
-            #     return Response(status=status.HTTP_400_BAD_REQUEST)
                 field_names = [field.name for field in model._meta.fields]
                 action_dict = {
                     field_names[1]: obj,
@@ -16,8 +14,7 @@ class AddAndDelMixin:
                 }
                 model.objects.create(**action_dict)
                 return Response(status=status.HTTP_201_CREATED)
-            if self.request.method == 'DELETE' and relation.exists():
-            # if relation.exists():
+            elif self.request.method == 'DELETE' and relation.exists():
                 relation.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
             return Response(status=status.HTTP_400_BAD_REQUEST)
