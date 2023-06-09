@@ -43,7 +43,7 @@ class UserSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if user.is_anonymous or user == author:
             return False
-        return user.following.filter(user=author).exists()
+        return user.follower.filter(author=author).exists()
 
     class Meta:
 
