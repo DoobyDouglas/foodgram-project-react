@@ -19,6 +19,9 @@ class AddAndDelMixin:
                 )
             elif self.request.method == 'DELETE' and relation.exists():
                 relation.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
+                return Response(
+                    data=self.request.data,
+                    status=status.HTTP_204_NO_CONTENT
+                )
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
