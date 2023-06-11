@@ -84,7 +84,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
     http_method_names = ('get', 'post', 'patch', 'delete',)
 
     def create(self, request, *args, **kwargs):
-        self.image_size_validator(request.data.get('image'))
+        self.image_size_validator(request)
         serializer = CreateRecipeSerializer(
             data=request.data,
             context={'request': request},
@@ -109,7 +109,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
         #         {'image': 'Размер не должен привышать 25MB'},
         #         status=status.HTTP_400_BAD_REQUEST
         #     )
-        self.image_size_validator(request.data.get('image'))
+        self.image_size_validator(request)
         instance = self.get_object()
         serializer = CreateRecipeSerializer(
             instance,
