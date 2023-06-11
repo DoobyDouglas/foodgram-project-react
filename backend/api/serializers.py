@@ -263,7 +263,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             raise ValidationError('Файл не является изображением.') from e
         if image:
             request = self.context.get('request')
-            uploaded_file = request.FILES['image']
+            uploaded_file = request.FILES
             file_size = uploaded_file.size
             max_size = 10 * 1024 * 1024
             if file_size > max_size:
