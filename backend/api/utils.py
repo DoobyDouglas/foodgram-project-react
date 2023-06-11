@@ -25,13 +25,12 @@ class AddAndDelMixin:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-
-def image_size_validator(data):
-    data = data.split(';base64,')[-1]
-    image = base64.urlsafe_b64decode(data + '==')
-    size = sys.getsizeof(image)
-    if size > 25 * 1024 * 1024:
-        return Response(
-            {'image': 'Размер не должен привышать 25MB'},
-            status=status.HTTP_400_BAD_REQUEST
+    def image_size_validator(self, data):
+        size = sys.getsizeof(
+            base64.urlsafe_b64decode(data.split(';base64,')[-1] + '==')
         )
+        if size > 25 * 1024 * 1024:
+            return Response(
+                {'image': 'Размер не должен привышать 25MB'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
