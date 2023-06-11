@@ -92,7 +92,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             return True
 
     def create(self, request, *args, **kwargs):
-        if not self.img_size_validator(self, request):
+        if not self.img_size_validator(request):
             return Response(
                 {'image': 'Размер не должен привышать 25MB'},
                 status=status.HTTP_400_BAD_REQUEST
@@ -112,7 +112,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk, partial):
-        if not self.img_size_validator(self, request):
+        if not self.img_size_validator(request):
             return Response(
                 {'image': 'Размер не должен привышать 25MB'},
                 status=status.HTTP_400_BAD_REQUEST
