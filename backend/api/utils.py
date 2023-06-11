@@ -1,5 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status
+import base64
+import sys
 
 
 class AddAndDelMixin:
@@ -22,3 +24,14 @@ class AddAndDelMixin:
                 return Response(status=status.HTTP_204_NO_CONTENT)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+def image_size_validator(data):
+    size = sys.getsizeof(
+        base64.urlsafe_b64decode(data.split(';base64,')[-1] + '==')
+    )
+    if size > 25 * 1024 * 1024:
+        return Response(
+            {'image': 'Размер не должен привышать 25MB'},
+            status=status.HTTP_400_BAD_REQUEST
+        )

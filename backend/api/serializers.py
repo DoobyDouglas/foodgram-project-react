@@ -255,20 +255,12 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         recipe.save()
         return recipe
 
-    # def validate_image(self, value):
-    #     try:
-    #         image = Image.open(value)
-    #         image.verify()
-    #     except Exception as e:
-    #         raise ValidationError('Файл не является изображением.') from e
-    #     return value
-
-    # def validate(self, attrs):
-    #     attrs = super().validate(attrs)
-    #     image = attrs.get('image')
-    #     if image:
-    #         attrs['image'] = self.validate_image(image)
-    #     return attrs
+    def validate_image(self, value):
+        try:
+            Image.open(value).verify()
+        except Exception as e:
+            raise ValidationError('Файл не является изображением.') from e
+        return value
 
     class Meta:
 

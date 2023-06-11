@@ -19,7 +19,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from django.http import HttpResponse
-from .utils import AddAndDelMixin
+from .utils import AddAndDelMixin, image_size_validator
 import base64
 import sys
 
@@ -84,6 +84,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
     http_method_names = ('get', 'post', 'patch', 'delete',)
 
     def create(self, request, *args, **kwargs):
+        image_size_validator(request.data.get('image'))
         serializer = CreateRecipeSerializer(
             data=request.data,
             context={'request': request},
@@ -99,13 +100,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk, partial):
-        data = request.data.get('image')
-        #image = base64.b64decode(data)
-        data = data.split(';base64,')[-1]
-        image = base64.urlsafe_b64decode(data + '==')
-        image_size = sys.getsizeof(image)
-        if image_size > 25 * 1024 * 1024:
-            return Response({'size': 'не пройдёт!'}, status=status.HTTP_200_OK)
+        image_size_validator(request.data.get('image'))
         instance = self.get_object()
         serializer = CreateRecipeSerializer(
             instance,
@@ -121,8 +116,6 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
                 context={'request': request},
             )
             return Response(serializer.data, status=status.HTTP_200_OK)
-            #return Response(request.data.get('image'), status=status.HTTP_200_OK)
-            #return Response({'size': image_size}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
