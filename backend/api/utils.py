@@ -27,9 +27,9 @@ class AddAndDelMixin:
 
 
 def image_size_validator(data):
-    size = sys.getsizeof(
-        base64.urlsafe_b64decode(data.split(';base64,')[-1] + '==')
-    )
+    data = data.split(';base64,')[-1]
+    image = base64.urlsafe_b64decode(data + '==')
+    size = sys.getsizeof(image)
     if size > 25 * 1024 * 1024:
         return Response(
             {'image': 'Размер не должен привышать 25MB'},
