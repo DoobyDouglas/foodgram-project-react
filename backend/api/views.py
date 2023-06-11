@@ -109,11 +109,9 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk, partial):
-        data = request.data.get('image')
-        if data:
-            data = data.split(';base64,')[-1]
-            image = base64.urlsafe_b64decode(data + '==')
-            size = sys.getsizeof(image)
+        if request.data.get('image'):
+            data = request.data.get('image').split(';base64,')[-1]
+            size = sys.getsizeof(base64.urlsafe_b64decode(data + '=='))
             if size > 25 * 1024 * 1024:
                 return Response(
                     {'image': 'Размер не должен привышать 25MB'},
