@@ -261,6 +261,12 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             image.verify()
         except Exception as e:
             raise ValidationError('Файл не является изображением.') from e
+        if image:
+            uploaded_file = self.request.FILES['image']
+            file_size = uploaded_file.size
+            max_size = 10 * 1024 * 1024
+            if file_size > max_size:
+                raise ValidationError('Файл слишком большой.')
         return value
 
     def validate(self, attrs):
