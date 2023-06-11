@@ -171,3 +171,5 @@ DJOSER = {
         'user_list': ('api.permissions.ObjAuthorOrReadOnly',),
     },
 }
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 26214400
