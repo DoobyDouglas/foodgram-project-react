@@ -85,14 +85,15 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
 
     def create(self, request, *args, **kwargs):
         data = request.data.get('image')
-        data = data.split(';base64,')[-1]
-        image = base64.urlsafe_b64decode(data + '==')
-        size = sys.getsizeof(image)
-        if size > 25 * 1024 * 1024:
-            return Response(
-                {'image': 'Размер не должен привышать 25MB'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        if data:
+            data = data.split(';base64,')[-1]
+            image = base64.urlsafe_b64decode(data + '==')
+            size = sys.getsizeof(image)
+            if size > 25 * 1024 * 1024:
+                return Response(
+                    {'image': 'Размер не должен привышать 25MB'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
         serializer = CreateRecipeSerializer(
             data=request.data,
             context={'request': request},
@@ -109,14 +110,15 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
 
     def update(self, request, pk, partial):
         data = request.data.get('image')
-        data = data.split(';base64,')[-1]
-        image = base64.urlsafe_b64decode(data + '==')
-        size = sys.getsizeof(image)
-        if size > 25 * 1024 * 1024:
-            return Response(
-                {'image': 'Размер не должен привышать 25MB'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        if data:
+            data = data.split(';base64,')[-1]
+            image = base64.urlsafe_b64decode(data + '==')
+            size = sys.getsizeof(image)
+            if size > 25 * 1024 * 1024:
+                return Response(
+                    {'image': 'Размер не должен привышать 25MB'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
         instance = self.get_object()
         serializer = CreateRecipeSerializer(
             instance,
