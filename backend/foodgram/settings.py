@@ -171,4 +171,3 @@ DJOSER = {
         'user_list': ('api.permissions.ObjAuthorOrReadOnly',),
     },
 }
-

@@ -22,7 +22,6 @@ from django.http import HttpResponse
 from .utils import AddAndDelMixin
 import base64
 import sys
-from django.core.files.base import ContentFile
 
 
 class UserViewSet(DjoserUVS, viewsets.ModelViewSet, AddAndDelMixin):
@@ -101,11 +100,10 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
 
     def update(self, request, pk, partial):
         data = request.data.get('image')
-        format, imgstr = data.split(';base64,')
-        ext = format.split('/')[-1]
-        data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
-        image_binary = base64.b64decode(data)
-        image_size = sys.getsizeof(image_binary)
+        #image = base64.b64decode(data)
+        data = data.split(';base64,')[-1]
+        image = base64.urlsafe_b64decode(data + '==')
+        image_size = sys.getsizeof(image)
         if image_size > 25 * 1024 * 1024:
             return Response({'size': 'не пройдёт!'}, status=status.HTTP_200_OK)
         instance = self.get_object()
