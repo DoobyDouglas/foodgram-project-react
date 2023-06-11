@@ -19,7 +19,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from django.http import HttpResponse
-from .utils import AddAndDelMixin, image_size_validator
+from .utils import AddAndDelMixin
 import base64
 import sys
 
