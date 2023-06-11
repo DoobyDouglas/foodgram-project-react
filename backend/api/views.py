@@ -87,6 +87,11 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             context={'request': request},
             )
         if serializer.is_valid(raise_exception=True):
+            image = request.data.get('image')
+            if image:
+                max_size = 25 * 1024 * 1024
+                if image.size > max_size:
+                    return Response({'detail': 'Изображение не должно быть больше 25 MB'}, status=status.HTTP_400_BAD_REQUEST)
             self.perform_create(serializer)
             recipe = serializer.instance
             serializer = RecipeDetailSerializer(
@@ -105,6 +110,11 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             context={'request': request},
         )
         if serializer.is_valid(raise_exception=True):
+            image = request.data.get('image')
+            if image:
+                max_size = 25 * 1024 * 1024
+                if image.size > max_size:
+                    return Response({'detail': 'Изображение не должно быть больше 25 MB'}, status=status.HTTP_400_BAD_REQUEST)
             self.perform_update(serializer)
             recipe = serializer.instance
             serializer = RecipeSerializer(
