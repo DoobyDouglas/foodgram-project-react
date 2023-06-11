@@ -272,20 +272,27 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         return recipe
 
     def validate_image(self, value):
+        max_size = 25 * 1024 * 1024  # 25 MB
+
+        if value.size > max_size:
+            raise ValidationError('Image size should not exceed 25 MB.')
+
         try:
-            img = Image.open(value)
-            if not img.is_image:
-                raise UnidentifiedImageError('Файл не является изображением')
-            img_width, img_height = img.size
-            max_width, max_height = 1920, 1080
-            if img_width > max_width or img_height > max_height:
-                raise ValidationError(
-                    f'Изображение не должно быть '
-                    f'больше {max_width}x{max_height} пикселей'
-                )
-        except FileNotFoundError:
-            raise ValidationError('Файл не найден')
+            image = Image.open(value)
+            image.verify()  # Проверка целостности изображения
+        except Exception as e:
+            raise ValidationError('Invalid image file.') from e
+
         return value
+
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+
+        image = attrs.get('image')
+        if image:
+            attrs['image'] = self.validate_image(image)
+
+        return attrs
 
     class Meta:
 
