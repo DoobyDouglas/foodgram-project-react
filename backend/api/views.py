@@ -100,7 +100,8 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
     def update(self, request, pk, partial):
         image_data = request.data.get('image')
         image_binary = base64.b64decode(image_data)
-        image_size = sys.getsizeof(image_binary)
+        #image_size = sys.getsizeof(image_binary)
+        image_size = len(image_binary)
         if image_size > 25 * 1024 * 1024:
             return Response({'size': 'не пройдёт!'}, status=status.HTTP_200_OK)
         instance = self.get_object()
