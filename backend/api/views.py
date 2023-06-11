@@ -82,7 +82,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
     http_method_names = ('get', 'post', 'patch', 'delete',)
 
     def create(self, request, *args, **kwargs):
-        image_file = request.FILES.get('image')
+        image_file = request.files.get('image')
         if image_file:
             max_size = 25 * 1024 * 1024  # 25 MB
             if image_file.size > max_size:
@@ -105,7 +105,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk, partial):
-        image_file = request.FILES.get('image')
+        image_file = request.files.get('image')
         if image_file:
             max_size = 25 * 1024 * 1024  # 25 MB
             if image_file.size > max_size:
