@@ -118,9 +118,9 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
                 recipe,
                 context={'request': request},
             )
-            #return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
             #return Response(request.data.get('image'), status=status.HTTP_200_OK)
-            return Response({'size': image_size}, status=status.HTTP_200_OK)
+            #return Response({'size': image_size}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
