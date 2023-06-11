@@ -109,7 +109,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
         if image_file:
             #max_size = 10 * 1024
             #if image_file.size > max_size:
-                return Response(
+            return Response(
                     {'error': image_file.size},
                     status=status.HTTP_400_BAD_REQUEST
                 )
