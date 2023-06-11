@@ -87,7 +87,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             context={'request': request},
             )
         if serializer.is_valid(raise_exception=True):
-            image = request.data.get('image')
+            image = request.FILES.get('image')
             if image:
                 max_size = 25 * 1024 * 1024
                 if image.size > max_size:
@@ -110,7 +110,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             context={'request': request},
         )
         if serializer.is_valid(raise_exception=True):
-            image = request.data.get('image')
+            image = request.FILES.get('image')
             if image:
                 max_size = 25 * 1024 * 1024
                 if image.size > max_size:
