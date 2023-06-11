@@ -84,7 +84,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
     def create(self, request, *args, **kwargs):
         image_file = request.FILES.get('image')
         if image_file:
-            max_size = 10 * 1024 * 1024  # 25 MB
+            max_size = 10 * 1024
             if image_file.size > max_size:
                 return Response(
                     {'error': 'Размер изображения не должен превышать 25 МБ.'},
@@ -107,7 +107,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
     def update(self, request, pk, partial):
         image_file = request.FILES.get('image')
         if image_file:
-            max_size = 10 * 1024 * 1024  # 25 MB
+            max_size = 10 * 1024
             if image_file.size > max_size:
                 return Response(
                     {'error': 'Размер изображения не должен превышать 25 МБ.'},
