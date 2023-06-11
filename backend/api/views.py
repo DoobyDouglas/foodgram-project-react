@@ -100,16 +100,15 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk, partial):
-        # data = request.data.get('image')
-        # data = data.split(';base64,')[-1]
-        # image = base64.urlsafe_b64decode(data + '==')
-        # size = sys.getsizeof(image)
-        # if size > 25 * 1024 * 1024:
-        #     return Response(
-        #         {'image': 'Размер не должен привышать 25MB'},
-        #         status=status.HTTP_400_BAD_REQUEST
-        #     )
-        self.image_size_validator(request)
+        data = request.data.get('image')
+        data = data.split(';base64,')[-1]
+        image = base64.urlsafe_b64decode(data + '==')
+        size = sys.getsizeof(image)
+        if size > 25 * 1024 * 1024:
+            return Response(
+                {'image': 'Размер не должен привышать 25MB'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         instance = self.get_object()
         serializer = CreateRecipeSerializer(
             instance,
