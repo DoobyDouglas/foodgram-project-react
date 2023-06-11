@@ -260,7 +260,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             image = Image.open(value)
             image.verify()
         except Exception as e:
-            raise serializers.ValidationError('Файл не является изображением.') from e
+            raise ValidationError('Файл не является изображением.') from e
         return value
 
     def validate(self, attrs):
