@@ -83,17 +83,20 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
     filter_backends = (DjangoFilterBackend,)
     http_method_names = ('get', 'post', 'patch', 'delete',)
 
-    def create(self, request, *args, **kwargs):
-        data = request.data.get('image')
-        if data:
-            data = data.split(';base64,')[-1]
-            image = base64.urlsafe_b64decode(data + '==')
-            size = sys.getsizeof(image)
+    def img_size_validator(self, request):
+        if request.data.get('image'):
+            data = request.data.get('image').split(';base64,')[-1]
+            size = sys.getsizeof(base64.urlsafe_b64decode(data + '=='))
             if size > 25 * 1024 * 1024:
-                return Response(
-                    {'image': 'Размер не должен привышать 25MB'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+                return False
+            return True
+
+    def create(self, request, *args, **kwargs):
+        if not self.img_size_validator(self, request):
+            return Response(
+                {'image': 'Размер не должен привышать 25MB'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         serializer = CreateRecipeSerializer(
             data=request.data,
             context={'request': request},
@@ -109,14 +112,11 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk, partial):
-        if request.data.get('image'):
-            data = request.data.get('image').split(';base64,')[-1]
-            size = sys.getsizeof(base64.urlsafe_b64decode(data + '=='))
-            if size > 25 * 1024 * 1024:
-                return Response(
-                    {'image': 'Размер не должен привышать 25MB'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+        if not self.img_size_validator(self, request):
+            return Response(
+                {'image': 'Размер не должен привышать 25MB'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         instance = self.get_object()
         serializer = CreateRecipeSerializer(
             instance,
