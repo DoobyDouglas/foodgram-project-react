@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import User
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, RegexValidator
 
 
 class Tag(models.Model):
@@ -121,7 +121,13 @@ class Amount(models.Model):
     )
     amount = models.PositiveSmallIntegerField(
         default=1,
-        validators=[MinValueValidator(1, message='0 штук не может быть'), ],
+        validators=[
+            MinValueValidator(1, message='0 штук не может быть'),
+            RegexValidator(
+                regex=r'^\d+$',
+                message='Пожалуйста, введите число.'
+            ),
+        ],
         verbose_name='Количество',
     )
 
