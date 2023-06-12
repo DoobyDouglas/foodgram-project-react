@@ -6,7 +6,7 @@ from drf_extra_fields.fields import Base64ImageField
 from django.shortcuts import get_object_or_404
 from PIL import Image
 import re
-from .messages import amount_error_message
+from .messages import amount_error_message, cooking_time_error_message
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -223,11 +223,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
     cooking_time = serializers.IntegerField(
         min_value=1,
         allow_null=True,
-        error_messages={
-            'undefined': 'Это поле не может быть пустым или строкой.',
-            'invalid': 'Это поле должно быть числом и не может быть пустым.',
-            'min_value': 'Это поле должно быть числом и не может быть пустым.',
-        }
+        error_messages=cooking_time_error_message,
     )
 
     def create(self, validated_data):
