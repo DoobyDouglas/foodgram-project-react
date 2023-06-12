@@ -209,11 +209,11 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
         error_messages=amount_error_message,
     )
 
-    def validate_amount(value):
-        if not isinstance(value, int):
-            raise serializers.ValidationError(
-                'Значение должно быть целым числом.'
-            )
+    # def validate_amount(value):
+    #     if not isinstance(value, int):
+    #         raise serializers.ValidationError(
+    #             'Значение должно быть целым числом.'
+    #         )
 
     class Meta:
 
