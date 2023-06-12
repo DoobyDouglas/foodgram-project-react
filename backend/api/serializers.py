@@ -4,10 +4,9 @@ from recipe.models import Tag, Recipe, Ingredient, Amount
 from .exceptions import UsernameValueException
 from drf_extra_fields.fields import Base64ImageField
 from django.shortcuts import get_object_or_404
-from django.core.exceptions import ValidationError
 from PIL import Image
 import re
-from .messages import amount_error_message, cooking_time_error_message
+from .messages import amount_error_message
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -221,10 +220,6 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         many=True
     )
     image = Base64ImageField()
-    # cooking_time = serializers.IntegerField(
-    #     min_value=1,
-    #     error_messages=cooking_time_error_message,
-    # )
 
     def create(self, validated_data):
         request = self.context.get('request')
@@ -273,7 +268,9 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
 
     def validate_cooking_time(self, value):
         if not value:
-            raise serializers.ValidationError('Это поле не может быть пустым или строкой.')
+            raise serializers.ValidationError({
+                'cooking_time': ['Это поле не может быть пустым или строкой.']
+            })
         return value
 
     class Meta:
