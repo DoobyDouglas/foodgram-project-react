@@ -102,7 +102,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             data=request.data,
             context={'request': request},
             )
-        if serializer.is_valid(raise_exception=True):
+        if serializer.is_valid():
             self.perform_create(serializer)
             recipe = serializer.instance
             serializer = RecipeDetailSerializer(
@@ -125,7 +125,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             partial=partial,
             context={'request': request},
         )
-        if serializer.is_valid(raise_exception=True):
+        if serializer.is_valid():
             self.perform_update(serializer)
             recipe = serializer.instance
             serializer = RecipeSerializer(
