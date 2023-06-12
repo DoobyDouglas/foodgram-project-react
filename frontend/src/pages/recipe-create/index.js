@@ -190,7 +190,7 @@ const RecipeCreate = ({ onEdit }) => {
           <div
             className={styles.ingredientAdd}
             onClick={_ => {
-              if (ingredientValue.amount === '' || ingredientValue.name === '' || !ingredientValue.id) { return }
+              if (ingredientValue.amount === '' || ingredientValue.name === '' || !ingredientValue.id || isNaN(ingredientValue.amount)) { return }
               setRecipeIngredients([...recipeIngredients, ingredientValue])
               setIngredientValue({
                 name: '',
