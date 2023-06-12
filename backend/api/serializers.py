@@ -221,10 +221,10 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         many=True
     )
     image = Base64ImageField()
-    cooking_time = serializers.IntegerField(
-        min_value=1,
-        error_messages=cooking_time_error_message,
-    )
+    # cooking_time = serializers.IntegerField(
+    #     min_value=1,
+    #     error_messages=cooking_time_error_message,
+    # )
 
     def create(self, validated_data):
         request = self.context.get('request')
@@ -268,7 +268,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         try:
             Image.open(value).verify()
         except Exception:
-            raise ValidationError('Файл не является изображением.')
+            raise serializers.ValidationError('Файл не является изображением.')
         return value
 
     def validate_cooking_time(self, value):
