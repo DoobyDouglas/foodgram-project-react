@@ -300,6 +300,10 @@ class RecipeDetailSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
+    cooking_time = serializers.IntegerField(
+        min_value=1,
+        error_messages=cooking_time_error_message,
+    )
 
     def get_image(self, recipe):
         request = self.context.get('request')
