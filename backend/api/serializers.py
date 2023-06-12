@@ -224,7 +224,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         min_value=1,
         allow_null=True,
         error_messages={
-            'null': 'Это поле не может быть пустым или строкой.',
+            'undefined': 'Это поле не может быть пустым или строкой.',
             'invalid': 'Это поле должно быть числом и не может быть пустым.',
             'min_value': 'Это поле должно быть числом и не может быть пустым.',
         }
