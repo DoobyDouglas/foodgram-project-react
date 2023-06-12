@@ -16,6 +16,5 @@ password = admin
 по адресу http://84.201.136.223/admin
 
 username = admin
-
 password = admin
 
