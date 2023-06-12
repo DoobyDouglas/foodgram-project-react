@@ -147,11 +147,11 @@ class IngredientRecipeSerializer(serializers.ModelSerializer):
         amount = ingredient.amount.values('amount')
         return amount[0]['amount']
 
-    # def validate_amount(value):
-    #     if not isinstance(value, int):
-    #         raise serializers.ValidationError(
-    #             'Значение должно быть целым числом.'
-    #         )
+    def validate_amount(value):
+        if not isinstance(value, int):
+            raise serializers.ValidationError(
+                'Значение должно быть целым числом.'
+            )
 
     class Meta:
 
@@ -208,12 +208,6 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
         min_value=1,
         error_messages=amount_error_message,
     )
-
-    # def validate_amount(value):
-    #     if not isinstance(value, int):
-    #         raise serializers.ValidationError(
-    #             'Значение должно быть целым числом.'
-    #         )
 
     class Meta:
 
