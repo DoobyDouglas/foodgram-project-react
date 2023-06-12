@@ -147,7 +147,6 @@ const RecipeCreate = ({ onEdit }) => {
             <div className={styles.ingredientsAmountInputContainer}>
               <Input
                 className={styles.ingredientsAmountInput}
-                type='number'
                 inputClassName={styles.ingredientsAmountValue}
                 onChange={e => {
                   const value = e.target.value
@@ -208,7 +207,6 @@ const RecipeCreate = ({ onEdit }) => {
             label='Время приготовления'
             className={styles.ingredientsTimeInput}
             labelClassName={styles.cookingTimeLabel}
-            type='number'
             inputClassName={styles.ingredientsTimeValue}
             onChange={e => {
               const value = e.target.value
