@@ -150,11 +150,6 @@ class IngredientRecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
 
-        amount = serializers.IntegerField(
-            min_value=1,
-            error_messages=amount_error_message,
-        )
-
         model = Ingredient
         fields = (
             'id',
@@ -274,6 +269,13 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             Image.open(value).verify()
         except Exception:
             raise ValidationError('Файл не является изображением.')
+        return value
+
+    def validate_cooking_time(self, value):
+        if not isinstance(value, int):
+            raise serializers.ValidationError(
+                'Время приготовления должно быть числом.'
+            )
         return value
 
     class Meta:
