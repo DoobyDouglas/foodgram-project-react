@@ -157,7 +157,7 @@ const RecipeCreate = ({ onEdit }) => {
                 }}
                 value={ingredientValue.amount}
               />
-              {ingredientValue.measurement_unit !== '' && !isNaN(parseInt(ingredientValue.measurement_unit)) && (
+              {ingredientValue.measurement_unit !== '' && !isNaN(parseFloat(ingredientValue.measurement_unit)) && (
                 <div className={styles.measurementUnit}>{ingredientValue.measurement_unit}</div>
               )}
             </div>
