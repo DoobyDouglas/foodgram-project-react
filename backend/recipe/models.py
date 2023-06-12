@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import User
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, RegexValidator
 
 
 class Tag(models.Model):
@@ -86,7 +86,12 @@ class Recipe(models.Model):
     )
     cooking_time = models.PositiveSmallIntegerField(
         default=1,
-        validators=[MinValueValidator(1, message='0 минут не может быть'), ],
+        validators=[
+            RegexValidator(
+                r'^\d+$', 'Значение должно быть целым числом.', 'invalid'
+            ),
+            MinValueValidator(1, message='0 минут не может быть'),
+        ],
         verbose_name='Время приготовления в минутах',
     )
 
