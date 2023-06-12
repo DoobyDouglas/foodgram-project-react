@@ -220,6 +220,15 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         many=True
     )
     image = Base64ImageField()
+    cooking_time = serializers.IntegerField(
+        min_value=1,
+        allow_null=True,
+        error_messages={
+            'null': 'Это поле не может быть пустым или строкой.',
+            'invalid': 'Это поле должно быть числом и не может быть пустым.',
+            'min_value': 'Это поле должно быть числом и не может быть пустым.',
+        }
+    )
 
     def create(self, validated_data):
         request = self.context.get('request')
@@ -266,12 +275,12 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Файл не является изображением.')
         return value
 
-    def validate_cooking_time(self, value):
-        if not value:
-            raise serializers.ValidationError({
-                'cooking_time': ['Это поле не может быть пустым или строкой.']
-            })
-        return value
+    # def validate_cooking_time(self, value):
+    #     if not value:
+    #         raise serializers.ValidationError({
+    #             'cooking_time': ['Это поле не может быть пустым или строкой.']
+    #         })
+    #     return value
 
     class Meta:
 
