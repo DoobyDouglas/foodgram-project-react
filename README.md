@@ -9,7 +9,6 @@
 Можно найти по адресу http://84.201.136.223
 
 email = admin@mail.com
-
 password = admin
 
 Для проверки админки:
@@ -17,6 +16,5 @@ password = admin
 по адресу http://84.201.136.223/admin
 
 username = admin
-
 password = admin
 
