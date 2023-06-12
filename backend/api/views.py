@@ -135,7 +135,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             return Response(serializer.data, status=status.HTTP_200_OK)
         errors = serializer.errors
         if 'cooking_time' in errors:
-            errors['cooking_time'] = ['Это поле не может быть пустым или строкой.']
+            errors['cooking_time'] = 'Это поле не может быть пустым или строкой.'
         return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
