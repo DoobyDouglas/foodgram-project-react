@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from PIL import Image
 import re
+from messages import amount_error_message, cooking_time_error_message
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -198,10 +199,10 @@ class RecipeSerializer(serializers.ModelSerializer):
 class IngredientAmountSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField()
-    amount = serializers.IntegerField(min_value=1, error_messages={
-        'invalid': 'Поле "amount" должно быть целым числом.',
-        'min_value': 'Значение поля "amount" должно быть больше или равно 1.',
-    })
+    amount = serializers.IntegerField(
+        min_value=1,
+        error_messages=amount_error_message,
+    )
 
     class Meta:
 
@@ -220,6 +221,10 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         many=True
     )
     image = Base64ImageField()
+    cooking_time = serializers.IntegerField(
+        min_value=1,
+        error_messages=cooking_time_error_message,
+    )
 
     def create(self, validated_data):
         request = self.context.get('request')

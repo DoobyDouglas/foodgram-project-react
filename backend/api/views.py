@@ -90,6 +90,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
             if size > 25 * 1024 * 1024:
                 return False
             return True
+        return True
 
     def create(self, request, *args, **kwargs):
         if not self.img_size_validator(request):
