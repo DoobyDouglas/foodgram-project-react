@@ -147,6 +147,7 @@ const RecipeCreate = ({ onEdit }) => {
             <div className={styles.ingredientsAmountInputContainer}>
               <Input
                 className={styles.ingredientsAmountInput}
+                type='number'
                 inputClassName={styles.ingredientsAmountValue}
                 onChange={e => {
                   const value = e.target.value
