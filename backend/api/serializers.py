@@ -272,10 +272,8 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         return value
 
     def validate_cooking_time(self, value):
-        if not isinstance(value, int):
-            raise serializers.ValidationError(
-                'Время приготовления должно быть числом.'
-            )
+        if not value:
+            raise serializers.ValidationError('Это поле не может быть пустым или строкой.')
         return value
 
     class Meta:

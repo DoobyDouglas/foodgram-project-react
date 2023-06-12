@@ -110,11 +110,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
                 context={'request': request},
             )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        errors = serializer.errors
-        if 'cooking_time' in errors:
-            errors['cooking_time'] = 'Это поле не может быть пустым или строкой.'
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-        #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk, partial):
         if not self.img_size_validator(request):
@@ -137,11 +133,7 @@ class RecipeViewSet(viewsets.ModelViewSet, AddAndDelMixin):
                 context={'request': request},
             )
             return Response(serializer.data, status=status.HTTP_200_OK)
-        errors = serializer.errors
-        if 'cooking_time' in errors:
-            errors['cooking_time'] = 'Это поле не может быть пустым или строкой.'
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-        #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
         user = self.request.user
