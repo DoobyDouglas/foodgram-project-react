@@ -5,7 +5,7 @@ from .exceptions import UsernameValueException
 from drf_extra_fields.fields import Base64ImageField
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
-from PIL import Image, UnidentifiedImageError
+from PIL import Image
 import re
 
 
@@ -198,6 +198,10 @@ class RecipeSerializer(serializers.ModelSerializer):
 class IngredientAmountSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField()
+    amount = serializers.IntegerField(min_value=1, error_messages={
+        'invalid': 'Поле "amount" должно быть целым числом.',
+        'min_value': 'Значение поля "amount" должно быть больше или равно 1.',
+    })
 
     class Meta:
 
