@@ -223,8 +223,9 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
     cooking_time = serializers.IntegerField(
         min_value=1,
         error_messages={
-            'invalid': 'Это поле должно быть целым числом и не может быть пустым.',
-            'min_value': 'Время приготовления должно быть больше или равно 1.',
+            'undefined': 'Это поле не может быть пустым или строкой.',
+            'invalid': 'Это поле должно быть числом и не может быть пустым.',
+            'min_value': 'Это поле должно быть числом и не может быть пустым.',
         }
     )
 
