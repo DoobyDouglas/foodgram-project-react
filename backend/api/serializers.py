@@ -222,11 +222,9 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
     cooking_time = serializers.IntegerField(
         min_value=1,
-        allow_null=True,
         error_messages={
-            'undefined': 'Это поле не может быть пустым или строкой.',
-            'invalid': 'Это поле должно быть числом и не может быть пустым.',
-            'min_value': 'Это поле должно быть числом и не может быть пустым.',
+            'invalid': 'Это поле должно быть целым числом и не может быть пустым.',
+            'min_value': 'Время приготовления должно быть больше или равно 1.',
         }
     )
 
