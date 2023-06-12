@@ -275,12 +275,12 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Файл не является изображением.')
         return value
 
-    # def validate_cooking_time(self, value):
-    #     if not value:
-    #         raise serializers.ValidationError({
-    #             'cooking_time': ['Это поле не может быть пустым или строкой.']
-    #         })
-    #     return value
+    def validate_cooking_time(self, value):
+        if not value:
+            raise serializers.ValidationError({
+                'cooking_time': ['Это поле не может быть пустым или строкой.']
+            })
+        return value
 
     class Meta:
 
