@@ -232,7 +232,7 @@ const RecipeEdit = ({ onItemDelete }) => {
           <div
             className={styles.ingredientAdd}
             onClick={_ => {
-              if (ingredientValue.amount === '' || ingredientValue.name === '') { return }
+              if (ingredientValue.amount === '' || ingredientValue.name === '' || isNaN(ingredientValue.amount)) { return }
               setRecipeIngredients([...recipeIngredients, ingredientValue])
               setIngredientValue({
                 name: '',
